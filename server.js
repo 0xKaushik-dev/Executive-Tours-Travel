@@ -657,29 +657,20 @@ const MASTER_120FPS_STYLES = `
   .trova-delay-2 { transition-delay: 0.16s !important; }
   .trova-delay-3 { transition-delay: 0.24s !important; }
 
-  /* 16. Guide Toggle Buttons Hover Effect */
+  /* 16. Hide Guide Toggle Buttons */
+  .framer-an3pla-container,
   [data-framer-name*="Left"],
   [data-framer-name*="Right"],
   .framer-1rfln9t-container,
   .framer-5kpjjp-container,
-  .framer-fhmrt {
-    cursor: pointer !important;
-    user-select: none !important;
-    pointer-events: auto !important;
-    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease !important;
-  }
-
-  [data-framer-name*="Left"]:hover,
-  [data-framer-name*="Right"]:hover,
-  .framer-1rfln9t-container:hover,
-  .framer-5kpjjp-container:hover {
-    transform: scale(1.1) !important;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15) !important;
-  }
-
-  [data-framer-name*="Left"]:active,
-  [data-framer-name*="Right"]:active {
-    transform: scale(0.95) !important;
+  .framer-bQuX7 {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    height: 0 !important;
+    width: 0 !important;
+    overflow: hidden !important;
   }
 </style>
 `;
@@ -724,9 +715,6 @@ const MASTER_120FPS_SCRIPT = `
 
       // 8. Modern Scroll Reveal Animations
       setupScrollReveals();
-
-      // 9. Interactive Guide Left/Right Switcher Engine
-      setupGuideSwitcher();
     }
 
     function setupDelayedScroll() {
@@ -1046,86 +1034,6 @@ const MASTER_120FPS_SCRIPT = `
         else if (i % 3 === 2) target.classList.add('trova-delay-2');
         observer.observe(target);
       });
-    }
-
-    function setupGuideSwitcher() {
-      const guides = [
-        {
-          name: 'Maren K.',
-          role: 'Lead Guide',
-          img: '/_external/framerusercontent.com/images/9LRjdvq7qodL0yYahLpqgygYuk.width_1254_height_1254.png'
-        },
-        {
-          name: 'Rajesh Mohanty',
-          role: 'Senior Expedition Leader',
-          img: '/_external/framerusercontent.com/images/V7m577nhz1sP3MRMUizK2jIvKus.width_896_height_1152.jpg'
-        },
-        {
-          name: 'Elena Rostova',
-          role: 'Wilderness Medic & Safety',
-          img: '/_external/framerusercontent.com/images/zFAVjhAqdjFpMrm7nOAQjbHChM4.width_896_height_1152.jpg'
-        },
-        {
-          name: 'Vikram Singh',
-          role: 'Chief Alpine Specialist',
-          img: '/_external/framerusercontent.com/images/Vv0HHm3ifnqmdAAXu3kN4eDaNMk.width_896_height_1152.jpg'
-        }
-      ];
-
-      let currentIndex = 0;
-
-      function updateGuide(idx, direction) {
-        currentIndex = (idx + guides.length) % guides.length;
-        const current = guides[currentIndex];
-
-        const guideImgs = document.querySelectorAll('.framer-13w8lx img, .framer-1n0xt1q img');
-        const nameEls = document.querySelectorAll('.framer-60b8wq h4, .framer-60b8wq .framer-text');
-        const roleEls = document.querySelectorAll('.framer-1ivkql6-container p, .framer-1ivkql6-container .framer-text');
-
-        guideImgs.forEach(img => {
-          img.style.transition = 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)';
-          img.style.opacity = '0.2';
-          img.style.transform = direction === 'next' ? 'scale(0.95) translateX(15px)' : 'scale(0.95) translateX(-15px)';
-        });
-
-        nameEls.forEach(el => {
-          el.style.transition = 'opacity 0.2s ease';
-          el.style.opacity = '0';
-        });
-
-        setTimeout(() => {
-          guideImgs.forEach(img => {
-            img.src = current.img;
-            img.alt = current.name + ' - Executive Tours & Travel Guide';
-            img.style.opacity = '1';
-            img.style.transform = 'scale(1) translateX(0)';
-          });
-
-          nameEls.forEach(el => {
-            el.textContent = current.name;
-            el.style.opacity = '1';
-          });
-
-          roleEls.forEach(el => {
-            el.textContent = current.role;
-          });
-        }, 180);
-      }
-
-      document.addEventListener('click', (e) => {
-        const leftBtn = e.target.closest('[data-framer-name*="Left"], .framer-1rfln9t-container, .framer-fhmrt.framer-v-112r84u');
-        const rightBtn = e.target.closest('[data-framer-name*="Right"], .framer-5kpjjp-container, .framer-fhmrt.framer-v-8a0ono');
-
-        if (leftBtn) {
-          e.preventDefault();
-          e.stopPropagation();
-          updateGuide(currentIndex - 1, 'prev');
-        } else if (rightBtn) {
-          e.preventDefault();
-          e.stopPropagation();
-          updateGuide(currentIndex + 1, 'next');
-        }
-      }, true);
     }
 
     if (document.readyState === 'loading') {
