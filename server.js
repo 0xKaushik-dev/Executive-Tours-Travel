@@ -638,6 +638,29 @@ const MASTER_120FPS_STYLES = `
     opacity: 1 !important;
     transform: translateY(0) scale(1) !important;
   }
+
+  /* 15. Modern Subtle Scroll Reveal & Micro-Animations */
+  .trova-reveal-up {
+    opacity: 0 !important;
+    transform: translateY(24px) translateZ(0) !important;
+    transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.65s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    will-change: opacity, transform;
+  }
+
+  .trova-reveal-up.trova-revealed {
+    opacity: 1 !important;
+    transform: translateY(0) translateZ(0) !important;
+  }
+
+  .trova-delay-1 { transition-delay: 0.08s !important; }
+  .trova-delay-2 { transition-delay: 0.16s !important; }
+  .trova-delay-3 { transition-delay: 0.24s !important; }
+
+  /* Ambient Glass Glow & Smooth Scaling on Interactive Elements */
+  [data-border="true"], .framer-DjlwF, .framer-ABfMY, .framer-1qxpsbd {
+    will-change: transform, box-shadow;
+  }
 </style>
 `;
 
@@ -678,6 +701,9 @@ const MASTER_120FPS_SCRIPT = `
 
       // 7. Smooth Page Jumping Transition Animation
       setupPageTransitions();
+
+      // 8. Modern Scroll Reveal Animations
+      setupScrollReveals();
     }
 
     function setupDelayedScroll() {
@@ -972,6 +998,30 @@ const MASTER_120FPS_SCRIPT = `
           document.body.classList.add('trova-page-entered');
           if (bar) bar.style.opacity = '0';
         }
+      });
+    }
+
+    function setupScrollReveals() {
+      const targets = document.querySelectorAll(
+        'section h2, section h3, section [data-framer-name="Wrapper"] > div, .framer-DjlwF, .framer-h4qa87-container, .framer-1sig05n [data-border="true"], .framer-1t8eimp [data-border="true"], .framer-a4tvnf [data-border="true"], .framer-nkkdaz [data-border="true"], .framer-ev12gd [data-border="true"]'
+      );
+
+      if (!('IntersectionObserver' in window)) return;
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('trova-revealed');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+
+      targets.forEach((target, i) => {
+        target.classList.add('trova-reveal-up');
+        if (i % 3 === 1) target.classList.add('trova-delay-1');
+        else if (i % 3 === 2) target.classList.add('trova-delay-2');
+        observer.observe(target);
       });
     }
 
