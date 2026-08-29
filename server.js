@@ -114,14 +114,42 @@ const MASTER_120FPS_STYLES = `
     margin-right: 0 !important;
   }
 
-  /* 4. Navigation Bar Layout & Responsiveness */
-  header, 
-  header nav,
-  .ssr-variant.hidden-uz5np3.hidden-bralxw,
-  .ssr-variant.hidden-bralxw.hidden-2bgdeg {
+  /* 4. Navigation Bar Layout & High-Visibility Fixed Top Header */
+  .framer-1i9clgj-container,
+  header {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    max-width: 100vw !important;
+    z-index: 999999 !important;
+    background: rgba(255, 255, 255, 0.96) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06) !important;
     visibility: visible !important;
     opacity: 1 !important;
-    z-index: 99999 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  body {
+    padding-top: 68px !important;
+  }
+
+  header nav {
+    width: 100% !important;
+    max-width: 1330px !important;
+    margin: 0 auto !important;
+    background: transparent !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    box-sizing: border-box !important;
+    overflow: visible !important;
   }
 
   @media (min-width: 860px) {
@@ -147,12 +175,14 @@ const MASTER_120FPS_STYLES = `
   }
 
   .framer-16719fj {
-    padding: 18px 32px !important;
+    padding: 12px 32px !important;
     max-width: 1330px !important;
+    width: 100% !important;
     margin: 0 auto !important;
     display: flex !important;
     align-items: center !important;
     justify-content: space-between !important;
+    box-sizing: border-box !important;
   }
 
   .framer-ikyzxh {
@@ -165,10 +195,11 @@ const MASTER_120FPS_STYLES = `
 
   .framer-tw8l0u .framer-text,
   .framer-tw8l0u h4,
-  .framer-1yvk1fi .framer-text {
+  .framer-1yvk1fi .framer-text,
+  header a.framer-1yvk1fi h4 {
     font-size: 20px !important;
-    font-weight: 700 !important;
-    letter-spacing: -0.01em !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.02em !important;
     color: #111827 !important;
     --framer-text-color: #111827 !important;
     white-space: nowrap !important;
@@ -234,6 +265,18 @@ const MASTER_120FPS_STYLES = `
   header nav .framer-Bb0lZ:hover .framer-text {
     color: #1a3d1f !important;
     --framer-text-color: #1a3d1f !important;
+  }
+
+  header nav .framer-ABfMY,
+  header nav .framer-1qxpsbd {
+    background-color: #1a3d1f !important;
+    border-radius: 8px !important;
+  }
+
+  header nav .framer-154ou0s p,
+  header nav .framer-1y9x5vq p {
+    color: #ffffff !important;
+    --framer-text-color: #ffffff !important;
   }
 
   /* 5. Action Buttons */
