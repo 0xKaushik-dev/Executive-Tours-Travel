@@ -115,17 +115,20 @@ const MASTER_120FPS_STYLES = `
   }
 
   /* 4. Navigation Bar Layout & Responsiveness */
-  header, header nav {
-    display: block !important;
+  header, 
+  header nav,
+  .ssr-variant.hidden-uz5np3.hidden-bralxw,
+  .ssr-variant.hidden-bralxw.hidden-2bgdeg {
     visibility: visible !important;
     opacity: 1 !important;
-    z-index: 9999 !important;
-    position: relative !important;
+    z-index: 99999 !important;
   }
 
   @media (min-width: 860px) {
-    .ssr-variant.hidden-uz5np3 {
+    .ssr-variant.hidden-uz5np3.hidden-bralxw {
       display: block !important;
+      visibility: visible !important;
+      opacity: 1 !important;
     }
     .ssr-variant.hidden-2bgdeg {
       display: none !important;
@@ -133,10 +136,12 @@ const MASTER_120FPS_STYLES = `
   }
 
   @media (max-width: 859.98px) {
-    .ssr-variant.hidden-2bgdeg {
+    .ssr-variant.hidden-bralxw.hidden-2bgdeg {
       display: block !important;
+      visibility: visible !important;
+      opacity: 1 !important;
     }
-    .ssr-variant.hidden-uz5np3 {
+    .ssr-variant.hidden-uz5np3.hidden-bralxw {
       display: none !important;
     }
   }
