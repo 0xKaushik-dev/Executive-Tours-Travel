@@ -558,7 +558,37 @@ const MASTER_120FPS_STYLES = `
     pointer-events: none !important;
   }
 
-  /* 13. Mobile Menu Drawer */
+  /* 13. Mobile Menu Drawer & Hamburger Styling */
+  .framer-iqge09-container,
+  .framer-0XlTn,
+  [aria-label="Open menu"] {
+    cursor: pointer !important;
+    user-select: none !important;
+    pointer-events: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 44px !important;
+    height: 44px !important;
+    background: transparent !important;
+    border: none !important;
+    position: relative !important;
+    z-index: 9999 !important;
+  }
+
+  .framer-134aahx,
+  .framer-2sz5tv {
+    background-color: #111827 !important;
+    height: 3px !important;
+    width: 24px !important;
+    border-radius: 3px !important;
+    margin: 3px 0 !important;
+    pointer-events: none !important;
+    display: block !important;
+    transition: background-color 0.2s ease !important;
+  }
+
   .trova-mobile-menu-open {
     display: flex !important;
     position: fixed !important;
@@ -567,13 +597,13 @@ const MASTER_120FPS_STYLES = `
     right: 16px !important;
     background: #ffffff !important;
     border-radius: 16px !important;
-    padding: 24px !important;
+    padding: 20px 24px 24px 24px !important;
     flex-direction: column !important;
-    gap: 16px !important;
-    z-index: 9999 !important;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.15) !important;
+    z-index: 99999 !important;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2) !important;
     animation: trovaMenuSlideDown 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
   }
+
   @keyframes trovaMenuSlideDown {
     from { opacity: 0; transform: translateY(-12px); }
     to { opacity: 1; transform: translateY(0); }
@@ -834,40 +864,55 @@ const MASTER_120FPS_SCRIPT = `
     }
 
     function setupMobileMenu() {
-      const menuBtns = document.querySelectorAll('[aria-label="Open menu"], .framer-0XlTn');
-      menuBtns.forEach(btn => {
-        btn.style.cursor = 'pointer';
-        btn.addEventListener('click', (e) => {
-          e.preventDefault();
-          let drawer = document.getElementById('trova-mobile-drawer');
-          if (drawer) {
-            drawer.remove();
-          } else {
-            drawer = document.createElement('div');
-            drawer.id = 'trova-mobile-drawer';
-            drawer.className = 'trova-mobile-menu-open';
-            drawer.innerHTML = \`
-              <a href="/" style="font-size:18px;font-weight:600;color:#1a3d1f;text-decoration:none;padding:8px 0;border-bottom:1px solid #eef2ec">Home</a>
-              <a href="/about" style="font-size:18px;font-weight:600;color:#1a3d1f;text-decoration:none;padding:8px 0;border-bottom:1px solid #eef2ec">About Us</a>
-              <a href="/hikes" style="font-size:18px;font-weight:600;color:#1a3d1f;text-decoration:none;padding:8px 0;border-bottom:1px solid #eef2ec">Tour Packages</a>
-              <a href="/gallery" style="font-size:18px;font-weight:600;color:#1a3d1f;text-decoration:none;padding:8px 0;border-bottom:1px solid #eef2ec">Gallery</a>
-              <a href="/journal" style="font-size:18px;font-weight:600;color:#1a3d1f;text-decoration:none;padding:8px 0;border-bottom:1px solid #eef2ec">Travel Guides</a>
-              <a href="/contact" style="display:block;text-align:center;background:#1a3d1f;color:#fff;font-weight:600;padding:12px;border-radius:8px;text-decoration:none;margin-top:8px">Plan Your Tour</a>
-            \`;
-            document.body.appendChild(drawer);
+      function handleMenuClick(e) {
+        const btn = e.target.closest('[aria-label="Open menu"], .framer-0XlTn, .framer-iqge09-container');
+        if (!btn) return;
 
-            setTimeout(() => {
-              const closeHandler = (evt) => {
-                if (!drawer.contains(evt.target) && !btn.contains(evt.target)) {
-                  drawer.remove();
-                  document.removeEventListener('click', closeHandler);
-                }
-              };
-              document.addEventListener('click', closeHandler);
-            }, 100);
-          }
-        });
-      });
+        e.preventDefault();
+        e.stopPropagation();
+
+        let drawer = document.getElementById('trova-mobile-drawer');
+        let backdrop = document.getElementById('trova-mobile-backdrop');
+
+        if (drawer) {
+          drawer.remove();
+          if (backdrop) backdrop.remove();
+        } else {
+          backdrop = document.createElement('div');
+          backdrop.id = 'trova-mobile-backdrop';
+          backdrop.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.45);z-index:99998;animation:trovaFadeIn 0.2s ease;';
+
+          drawer = document.createElement('div');
+          drawer.id = 'trova-mobile-drawer';
+          drawer.className = 'trova-mobile-menu-open';
+          drawer.innerHTML = \`
+            <div style="display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eef2ec;padding-bottom:14px;margin-bottom:10px">
+              <span style="font-size:18px;font-weight:700;color:#111827">Executive Tours</span>
+              <button id="trova-close-menu-btn" style="background:none;border:none;font-size:26px;font-weight:bold;color:#111827;cursor:pointer;padding:0 8px;line-height:1">&times;</button>
+            </div>
+            <a href="/" style="font-size:17px;font-weight:600;color:#111827;text-decoration:none;padding:12px 0;border-bottom:1px solid #f3f4f6">Home</a>
+            <a href="/about" style="font-size:17px;font-weight:600;color:#111827;text-decoration:none;padding:12px 0;border-bottom:1px solid #f3f4f6">About Us</a>
+            <a href="/hikes" style="font-size:17px;font-weight:600;color:#111827;text-decoration:none;padding:12px 0;border-bottom:1px solid #f3f4f6">Tour Packages</a>
+            <a href="/gallery" style="font-size:17px;font-weight:600;color:#111827;text-decoration:none;padding:12px 0;border-bottom:1px solid #f3f4f6">Gallery</a>
+            <a href="/journal" style="font-size:17px;font-weight:600;color:#111827;text-decoration:none;padding:12px 0;border-bottom:1px solid #f3f4f6">Travel Guides</a>
+            <a href="/contact" style="display:block;text-align:center;background:#1a3d1f;color:#ffffff;font-weight:700;font-size:16px;padding:14px;border-radius:10px;text-decoration:none;margin-top:14px">Plan Your Tour</a>
+          \`;
+
+          document.body.appendChild(backdrop);
+          document.body.appendChild(drawer);
+
+          const closeBtn = document.getElementById('trova-close-menu-btn');
+          const closeMenu = () => {
+            if (drawer) drawer.remove();
+            if (backdrop) backdrop.remove();
+          };
+
+          if (closeBtn) closeBtn.onclick = closeMenu;
+          backdrop.onclick = closeMenu;
+        }
+      }
+
+      document.addEventListener('click', handleMenuClick, true);
     }
 
     function setupPageTransitions() {
